@@ -1,0 +1,98 @@
+<!doctype html>
+ 
+<html ng-app lang="es" charset="UTF-8">
+<head>
+<meta charset="UTF-8">
+<title>Galeria</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js">
+</script>
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+<link href="http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css" rel="stylesheet">
+<script src="controller.js"></script>
+
+
+</head>
+<body id="outer" ng-controller="index_ctrl" background="images/background.jpg">
+<script type="text/javascript">
+var sortingOrder = 'nombre';
+</script>
+<div class="alert alert-warning" align="center"><h1>Galeria <br/><small>Sistema de monitoreo de obras en galeria, ingreso de obras y modificacion de sus datos</small></h1></div>
+<br/>
+<br/>
+
+<!--
+
+Validacion de campos para la forma de ingreso de obras
+
+<div role="alert">
+    <span class="alert alert-danger" ng-hidden="add_obra.nombre.$error.required">
+      Recuerda no dejar vacio el nombre de la obra ;) !</span>
+      <br/>
+      <br/>
+	  <br/>
+    <span class="alert alert-danger" ng-hidden="add_obra.autor.$error.required">
+      Recuerda no dejar vacio el autor de la obra ;) !</span>
+      <br/>
+      <br/>
+	  <br/>
+    <span class="alert alert-danger" ng-hidden="add_obra.descripcion.$error.required">
+      Recuerda no dejar vacia la descripcion de la obra ;) !</span>
+      <br/>
+      <br/>
+	  <br/>
+    <span class="alert alert-danger" ng-hidden="myForm.input.$error.required">
+      Recuerda ingresar el año de creacion de la obra ;) !</span>
+      <br/>
+      <br/>
+	  <br/>
+    <span class="alert alert-danger" ng-hidden="myForm.input.$error.number">
+      Ese año no es valido, ingresa un año entre 1000 y 2015!</span>
+  	  <br/>
+      <br/>
+	  <br/>
+  </div>-->
+<div align="center" class="input-group">
+<h2><span style="color:#0095FF">Ingresar obra en galeria</span></h2>
+<form nombre="add_obra">
+<input type="hidden" name="obra_id" ng-model="obra_id">
+<input type="text" name="nombre" ng-model="obra_nombre" placeholder="Ingresa el nombre de la obra" required ng-trim="false">
+<input type="text" name="autor" ng-model="obra_autor" placeholder="Ingresa el autor de la obra" required ng-trim="false">
+<input type="text" name="descripcion" ng-model="obra_descripcion" placeholder="Descripcion de la obra" required ng-trim="false">
+<input type="number" name="anio" ng-model="obra_anio" placeholder="Año de creacion de la obra" required min="1000" max="2015">
+<br/>
+<input type="reset" class="btn btn-success" name="submit_obra" value="Ingresar obra a galeria" ng-click="obra_submit()"></input>
+</form>
+</div>
+<br/> 
+<div class="panel panel-default">
+  <h2><span style="color:#B0B0B0">Obras en galeria</span></h2>
+  <div class="panel-heading"><input type="text" ng-model="searchText" class="input-large search-query" placeholder="Buscar obra">
+<span class="add-on"><i class="icon-search"></i></span></div>
+<br/>
+  <span class="label label-info">El numero de obras en la galeria es de: {{contador_obras}}</span>
+  <!-- Table donde se muestran todas las obras -->
+  <div class="panel panel-primary">
+<table align="center" class="table table-bordered table-striped table-hover" style="background:#FFFFFF">
+    <thead>
+      <tr>
+        <th>Nombre de la obra</th>
+        <th>Autor de la obra</th>
+        <th>Descripcion</th>
+        <th>Año de creacion</th>
+        <th>Accion</th>
+      </tr>
+    </thead>
+    <tbody ng-init="get_obras()">
+			<tr ng-repeat="obra in pagedItems | filter:searchText">
+			<td>{{ obra.nombre | uppercase }}</td>
+			<td>{{ obra.autor }}</td>
+			<td>{{ obra.descripcion }}</td>
+			<td>{{ obra.anio }}</td> 
+			<td><button class="btn btn-danger" ng-click="obra_delete(obra.obra_id)">Eliminar obra</button></td>
+      </tr>
+  </table>
+</div>
+</div>
+</div>
+</body>
+</html>
